@@ -1,0 +1,43 @@
+.login {
+  max-width: 350px;
+  margin: 5rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.text_area {
+  margin-bottom: 1rem;
+}
+
+.text_input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.btn {
+  width: 100%;
+  padding: 0.6rem;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.link {
+  display: block;
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: #2563eb;
+}
+
+[role="alert"] {
+  color: #dc2626;
+  font-size: 0.85rem;
+}

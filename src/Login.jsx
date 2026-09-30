@@ -54,7 +54,6 @@ function Signin({onLogin}) {
                 className="btn"
                 />
             </form>
-            <a className="link" href="/signup"> Sign up </a>
             </div>
         )
 }

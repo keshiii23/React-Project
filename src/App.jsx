@@ -3,6 +3,7 @@ import Dashboard from './Dashboard';
 import Signin from './Login';
 import {useState} from 'react';
 import incidentDetails from './Incident';
+import Register from './Register';
 
 function RouteError() {
   return (
@@ -15,6 +16,7 @@ function RouteError() {
 
 function App() {
     const [currentUser, setCurrentUser] = useState(null);
+    const [registeredUser, setRegisteredUser] = useState(null);
     const [incidents, setIncidents] = useState(incidentDetails);
     const dashboardMatch = useMatch('/');
     const incidentMatch = useMatch('/incident/:id');
@@ -44,6 +46,15 @@ function App() {
             currentUser
             ? <Navigate to ="/" replace />
             : <Signin onLogin={setCurrentUser}/>
+          }
+          >
+        </Route>
+      <Route 
+          path = "/register"
+          element = {
+            registeredUser
+            ? <Navigate to ="/login" replace />
+            : <Register onRegister={setRegisteredUser}/>
           }
           >
         </Route>

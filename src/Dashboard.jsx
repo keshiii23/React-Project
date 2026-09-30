@@ -4,6 +4,7 @@ import mockAnalyst from './mockAnalyst';
 import IncidentList from './IncidentList';
 import InvestigationPanel from './InvestigationPanel';
 import {useNavigate, Routes, Route, Link, useMatch, Navigate}from 'react-router-dom';
+import FilteredTimestamps from './FilteredTimestamps';
 
 function RouteError() {
   return(
@@ -13,7 +14,6 @@ function RouteError() {
     </div>
   )
 }
-
 
 function Dashboard({currentUser, onLogout, incidents, setIncidents}) {
   const [draftNotes, setDraftNotes] = useState('');
@@ -164,6 +164,14 @@ function Dashboard({currentUser, onLogout, incidents, setIncidents}) {
   };
 
   const investigateIncident = (id) => {
+    const now = new Date().toISOString();
+    setIncidents((incidents) => 
+      incidents.map((incident) =>
+      incident.id === id ? {
+        ...incident,
+        investigatedAt: now,
+      } :incident )
+    );
     setDraftNotes('');
     setSelectedClassification('');
     navigate(`/incident/${id}`);
@@ -178,6 +186,9 @@ function Dashboard({currentUser, onLogout, incidents, setIncidents}) {
   incident.id.toLowerCase().includes(searchIncident.trim().toLowerCase()))
   return (
     <main className="dashboard">
+      <div>
+        <FilteredTimestamps incidents={incidents}/>
+      </div>
       <button onClick={onLogout}>Logout</button>
       <h1>SOC Incident Management System</h1>
       <p>Incident Overview</p>

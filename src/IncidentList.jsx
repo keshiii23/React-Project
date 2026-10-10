@@ -1,10 +1,12 @@
+import {useState} from 'react';
 function IncidentList( {
   incidents,
   currentAnalyst,
   l2Analyst,
   takeIncident,
   investigateIncident,
-  escalateIncident
+  escalateIncident,
+  incidentDetails
 }) {
   if (incidents.length === 0) {
     return <p>No Incident founded.</p>
@@ -52,6 +54,10 @@ function IncidentList( {
               >
                 Escalate
               </button>
+             <button onClick={() => incidentDetails(item.id)}
+              disabled={item.status == 'RESOLVED'}>
+              Detail
+                </button>
             </li>
           ))}
         </ul>

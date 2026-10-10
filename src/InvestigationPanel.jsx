@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
+import styles from './InvestigationPanel.module.css';
 
-function investigationPanel({
+
+function InvestigationPanel({
     selectedIncident,
     selectedIncidentId,
     currentAnalyst,
@@ -9,10 +11,21 @@ function investigationPanel({
     addNote,
     selectedClassification,
     classificationDropdown,
-    resolvedIncident
+    resolvedIncident,
+    escalateIncident,
+    l2Analyst
 }) {
+    const [isOpen, setisOpen] = useState(false);
+    const handleEscalate = () => {
+      if (!selectedIncident || !l2Analyst || currentAnalyst.role !== 'SOC_L1' || selectedIncident.status !== 'IN_PROGRESS' ||
+    selectedIncident.assignedTo !== currentAnalyst.id) {
+      return;
+    }
+      escalateIncident(selectedIncident.id);
+      setisOpen(true);
+    }
     return(
-         <div className="card">
+         <div className={styles.panel}>
               <p>Selected Incident : {selectedIncidentId}</p>
       <h2>Investigation Notes</h2>
 
@@ -58,8 +71,16 @@ function investigationPanel({
       >
         Resolve
       </button>
+      <button onClick={handleEscalate} disabled={!selectedIncident || !l2Analyst || currentAnalyst.role !== 'SOC_L1' || selectedIncident.status !== 'IN_PROGRESS' ||
+    selectedIncident.assignedTo !== currentAnalyst.id}
+        >
+          Escalate To L2.
+                </button>
+      {isOpen && (<div className={styles.popup} role="status"><h2>Sent to L2!</h2> <p>Success</p>
+    <button className={styles.close} onClick={() => setisOpen(false)}>Close</button> </div>) }
+
       </div>
     )
 }
 
-export default investigationPanel;
+export default InvestigationPanel;

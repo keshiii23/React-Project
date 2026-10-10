@@ -1,4 +1,4 @@
-import './Login.css';
+import styles from './Login.module.css';
 import mockUsers from './mockUsers';
 import {useState} from 'react';
 
@@ -25,33 +25,34 @@ function Signin({onLogin}) {
     }
 };
      return(
-            <div className="login">
+            <div className={styles.login}>
+                {error && <p role="alert" className={styles.error}>{error}</p>}
                 <h4>Login</h4>
                 <form onSubmit={handleSubmit}> { error && <p role='alert'>{error}</p>}
-                    <div className="text_area">
+                    <div className={styles.text_area}>
                     <input 
                     type="text"
                     id="username"
                     name="username"
                     value={username}
-                    className="text_input"
+                    className={styles.text_input}
                     onChange={(event) => setUsername(event.target.value)}
                     />
                 </div>
-                <div className="text_area">
+                <div className={styles.text_area}>
                     <input
                     type="password"
                     id="password"
                     name="password"
                     value={password}
-                    className="text_input"
+                    className={styles.text_input}
                     onChange={(event) => setPassword(event.target.value)}
                     />
                 </div>
                 <input
                 type="submit"
-                value="login"
-                className="btn"
+                value="Login"
+                className={styles.btn}
                 />
             </form>
             </div>

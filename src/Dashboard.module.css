@@ -1,0 +1,83 @@
+.dashboard {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.dashboard h1 {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.card {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.dashboard ul {
+  list-style: none;
+  padding: 0;
+}
+
+.dashboard li {
+  padding: 0.75rem;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.dashboard button {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 5px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.dashboard button:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+}
+
+.dashboard button:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.dashboard dialog {
+  border: none;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.dashboard dialog::backdrop {
+  background: rgba(0,0,0,0.4);
+}
+
+.dashboard input[type="search"] {
+  padding: 0.4rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.dashboard textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.dashboard select {
+  padding: 0.4rem;
+  border-radius: 5px;
+  margin: 0.5rem 0;
+}

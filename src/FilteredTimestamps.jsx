@@ -4,7 +4,7 @@ function FilteredTimestamps({incidents}) {
   const [appliedDate, setAppliedDate] = useState('');
   const filteredDate = useMemo(() => {
     if (!appliedDate) return [];
-    return incidents.filter((incident) => incident.investigatedAt?.slice(0, 10) === appliedDate);
+    return incidents.filter((incident) => incident.investigatedAt && new Date(incident.investigatedAt).toLocaleDateString('en-CA') === appliedDate);
   }, [incidents, appliedDate]);
   return (
   <div>

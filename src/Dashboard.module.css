@@ -1,7 +1,14 @@
 .dashboard {
+  position: relative;
   max-width: 900px;
   margin: 2rem auto;
   padding: 1rem;
+}
+
+.logoutButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 }
 
 .dashboard h1 {

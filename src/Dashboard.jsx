@@ -232,7 +232,7 @@ function Dashboard({ currentUser, onLogout, incidents, setIncidents }) {
         <FilteredTimestamps incidents={incidents} />
       </div>
 
-      <button onClick={onLogout}>Logout</button>
+      <button className={styles.logoutButton}onClick={onLogout}>Logout</button>
 
       <h1>SOC Incident Management System</h1>
       <p>Incident Overview</p>
@@ -247,7 +247,7 @@ function Dashboard({ currentUser, onLogout, incidents, setIncidents }) {
 
       <div className={styles.card}>
         <h2>Total Incidents : {totalIncidents}</h2>
-        <p>{currentAnalyst.name} & {currentAnalyst.role}</p>
+        <p>{currentAnalyst.name} (Role : {currentAnalyst.role})</p>
 
         <dialog ref={dialogRef}>
           <h2>Incident has been Assigned....</h2>
@@ -317,8 +317,6 @@ function Dashboard({ currentUser, onLogout, incidents, setIncidents }) {
           <Route path="/*" element={<RouteError />}>
           </Route>
         </Routes>
-
-        <Link to="/">Back to Incident List.</Link>
       </div>
     </main>
   );

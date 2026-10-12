@@ -2,6 +2,7 @@ import './Register.css';
 import { useState } from 'react';
 import mockUsers from './mockUsers';
 import mockAnalyst from './mockAnalyst';
+import {useNavigate, Link} from 'react-router-dom';
 
 function Register({ onRegister }) {
   const [name, setName] = useState('');
@@ -11,6 +12,7 @@ function Register({ onRegister }) {
   const [role, setRole] = useState('SOC_L1');
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -63,6 +65,8 @@ function Register({ onRegister }) {
     mockUsers.push(newUser);
 
     setSuccess('Registration successful!');
+    
+    navigate("/login");
 
     if (onRegister) {
       onRegister({
@@ -162,6 +166,9 @@ function Register({ onRegister }) {
           className="btn"
         />
       </form>
+      <p>
+  Already have an account? <Link to="/login">Back to Login</Link>
+</p>
     </div>
   );
 }

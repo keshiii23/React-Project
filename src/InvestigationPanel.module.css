@@ -32,3 +32,24 @@
 .popup .close:hover:not(:disabled) {
   background: #15803d;
 }
+
+.panel {
+  position: relative; /* acuan buat absolute positioning Link */
+}
+
+.backLink {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  color: #1d4ed8;
+  text-decoration: none;
+  border: 1px solid #93c5fd;
+  border-radius: 6px;
+  background: #eff6ff;
+}
+
+.backLink:hover {
+  background: #dbeafe;
+}

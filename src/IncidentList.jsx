@@ -6,7 +6,7 @@ function IncidentList( {
   takeIncident,
   investigateIncident,
   escalateIncident,
-  incidentDetails
+  incidentDetails,
 }) {
   if (incidents.length === 0) {
     return <p>No Incident founded.</p>
@@ -42,18 +42,6 @@ function IncidentList( {
               >
                 Investigate
               </button>{' '}
-
-              <button
-                onClick={() => escalateIncident(item.id)}
-                disabled={
-                  !l2Analyst ||
-                  item.status !== 'IN_PROGRESS' ||
-                  currentAnalyst.role !== 'SOC_L1' ||
-                  item.assignedTo !== currentAnalyst.id
-                }
-              >
-                Escalate
-              </button>
              <button onClick={() => incidentDetails(item.id)}
               disabled={item.status == 'RESOLVED'}>
               Detail

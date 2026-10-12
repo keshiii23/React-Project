@@ -14,30 +14,32 @@ function RouteError() {
   );
 }
 
+const PrivateRoute = ({currentUser, children}) => {
+  return (
+    currentUser? children : <Navigate to = "/login" replace/>)
+}
+
 function App() {
     const [currentUser, setCurrentUser] = useState(null);
-    const [registeredUser, setRegisteredUser] = useState(null);
     const [incidents, setIncidents] = useState(incidentDetails);
     const dashboardMatch = useMatch('/');
     const incidentMatch = useMatch('/incident/:id');
     const isValidPage = Boolean(dashboardMatch || incidentMatch);
     return(
-    <Routes>
-      <Route
+      <Routes>
+        <Route
           path = "/*"
           element={
             !isValidPage ? (
               <RouteError/>
-            ) : currentUser ? (
+            ) : <PrivateRoute currentUser={currentUser}>
               <Dashboard 
                 currentUser={currentUser}
                 onLogout ={() => setCurrentUser(null)}
                 incidents = {incidents}
                 setIncidents = {setIncidents}
              />
-            ) : (
-              <Navigate to = "/login" replace/>
-            )
+           </PrivateRoute>
           }
         />
       <Route 
@@ -51,12 +53,8 @@ function App() {
         </Route>
       <Route 
           path = "/register"
-          element = {
-            registeredUser
-            ? <Navigate to ="/login" replace />
-            : <Register onRegister={setRegisteredUser}/>
-          }
-          >
+          element = { <Register/>}
+      >
         </Route>
       <Route
       path="*" element={<RouteError/>}>

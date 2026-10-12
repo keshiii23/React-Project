@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import styles from './InvestigationPanel.module.css';
+import {Link} from 'react-router-dom';
 
 
 function InvestigationPanel({
@@ -35,7 +36,7 @@ function InvestigationPanel({
         placeholder="Type the Investigation Notes right here..."
       />
 
-      <button onClick={() => addNote()}>Add Note</button>
+      <button onClick={() => addNote()} disabled={!draftNotes.trim()}>Add Note</button>
 
       <ul>
         {selectedIncident?.notes?.map((item, index) => (
@@ -66,7 +67,7 @@ function InvestigationPanel({
           (
             selectedClassification !== 'TRUE_POSITIVE' &&
             selectedClassification !== 'FALSE_POSITIVE'
-          )
+          ) || !selectedIncident?.notes?.length
         }
       >
         Resolve
@@ -78,9 +79,11 @@ function InvestigationPanel({
                 </button>
       {isOpen && (<div className={styles.popup} role="status"><h2>Sent to L2!</h2> <p>Success</p>
     <button className={styles.close} onClick={() => setisOpen(false)}>Close</button> </div>) }
-
+      <Link to="/" className={styles.backLink}>Back to Incident List.</Link>
       </div>
+  
     )
 }
+
 
 export default InvestigationPanel;

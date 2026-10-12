@@ -1,6 +1,7 @@
 import styles from './Login.module.css';
 import mockUsers from './mockUsers';
 import {useState} from 'react';
+import {Link} from 'react-router-dom';
 
 
 function Signin({onLogin}) {
@@ -26,7 +27,7 @@ function Signin({onLogin}) {
 };
      return(
             <div className={styles.login}>
-                {error && <p role="alert" className={styles.error}>{error}</p>}
+                {error && <p role="alert" className={styles.error}></p>}
                 <h4>Login</h4>
                 <form onSubmit={handleSubmit}> { error && <p role='alert'>{error}</p>}
                     <div className={styles.text_area}>
@@ -55,6 +56,9 @@ function Signin({onLogin}) {
                 className={styles.btn}
                 />
             </form>
+            <p>
+                Don't have an account? <Link to="/register">Register</Link>
+            </p>
             </div>
         )
 }

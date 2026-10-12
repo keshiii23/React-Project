@@ -73,7 +73,9 @@ function InvestigationPanel({
         Resolve
       </button>
       <button onClick={handleEscalate} disabled={!selectedIncident || !l2Analyst || currentAnalyst.role !== 'SOC_L1' || selectedIncident.status !== 'IN_PROGRESS' ||
-    selectedIncident.assignedTo !== currentAnalyst.id}
+    selectedIncident.assignedTo !== currentAnalyst.id || selectedClassification !== 'TRUE_POSITIVE' &&
+            selectedClassification !== 'FALSE_POSITIVE'
+         || !selectedIncident?.notes?.length}
         >
           Escalate To L2.
                 </button>

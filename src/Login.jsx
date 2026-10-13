@@ -10,6 +10,15 @@ function Signin({onLogin}) {
     const [error, setError] = useState(null);
     const handleSubmit = (event) => {
     event.preventDefault();
+    if (username.trim() === '' && password.trim() === '') {
+    setError('Please enter both your username and password.');
+  } else if (username.trim() === '') {
+    setError('The username field is required. Please fill it in.');
+  } else if (password.trim() === '') {
+    setError('The password field is required. Please fill it in.');
+  } else if (password.length < 8) {
+    setError('Password must be at least 8 characters long.');
+  } else {
     const matchedUser = mockUsers.find((user) =>
         user.username === username.trim() && user.password === password
     )
@@ -24,7 +33,8 @@ function Signin({onLogin}) {
     else {
         setError('Either your username or password is false, please try again.')
     }
-};
+}
+    }
      return(
             <div className={styles.login}>
                 {error && <p role="alert" className={styles.error}></p>}
@@ -61,5 +71,6 @@ function Signin({onLogin}) {
             </p>
             </div>
         )
-}
+    }
+
 export default Signin;

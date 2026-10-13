@@ -23,6 +23,7 @@ function RouteError() {
   );
 }
 
+
 function Dashboard({ currentUser, onLogout, incidents, setIncidents }) {
   const [draftNotes, setDraftNotes] = useState('');
   const incidentMatch = useMatch('/incident/:id');
@@ -31,6 +32,8 @@ function Dashboard({ currentUser, onLogout, incidents, setIncidents }) {
   const [selectedClassification, setSelectedClassification] = useState('');
   const [searchIncident, setSearchIncident] = useState('');
   const [incidentDetailID, setIncidentDetailID] = useState('');
+  const [selectedAttackType, setSelectedAttackType] = useState('');
+  const [showEvidence, setShowEvidence ] = useState(false);
 
   const navigate = useNavigate();
   const dialogRef = useRef(null);
@@ -41,7 +44,7 @@ function Dashboard({ currentUser, onLogout, incidents, setIncidents }) {
   ) || { name: 'Guest', role: 'Unknown' };
 
   const openIncidents = incidents
-    ? incidents.filter((incident) => incident.status === 'OPEN')
+    ? incidents.filter((incident) => incident.status === 'OPEN' && (selectedAttackType === '' || incident.attackType ===  selectedAttackType))
     : [];
 
   const selectedIncident = incidents.find(
@@ -185,6 +188,7 @@ function Dashboard({ currentUser, onLogout, incidents, setIncidents }) {
     if (!validIncident) return;
 
     setIncidentDetailID(id);
+    setShowEvidence(false);
   };
 
   const classificationDropdown = (event) => {
@@ -217,14 +221,30 @@ function Dashboard({ currentUser, onLogout, incidents, setIncidents }) {
 
   const query = searchIncident.trim().toLowerCase()
   const filteredIncident = incidents.filter((incident) => {
+    if (selectedAttackType !== '' && incident.attackType !== selectedAttackType) {
+      return false;
+    }
     if (query === '') return true;
     if (/^\d+$/.test(query)) {
       const incidentNumber = incident.id.split('-').pop();
       return Number(incidentNumber) === Number(query);
     }
+
     return incident.id.toLowerCase() === query;
   }
   );
+
+  const filteredIncidentByAttackType = incidents.filter((incident) => 
+    (selectedAttackType === '' || incident.attackType === selectedAttackType) 
+  )
+
+  const setAttackTypes = [
+    ...new Set(incidents.map((incident) => incident.attackType).filter(Boolean))
+  ];
+
+  const toggleEvidence = () => {
+    setShowEvidence((previous) => !previous)
+  }
 
   return (
     <main className={styles.dashboard}>
@@ -244,6 +264,13 @@ function Dashboard({ currentUser, onLogout, incidents, setIncidents }) {
         value={searchIncident}
         onChange={(event) => setSearchIncident(event.target.value)}
       />
+      <label htmlFor="attack-type">Filter kategori:</label>
+      <select id="attack-type" value={selectedAttackType} onChange={(e) => setSelectedAttackType(e.target.value)}>
+        <option value="">Semua jenis serangan</option>
+        {Array.from(setAttackTypes).map((attackType) => (
+          <option key={attackType} value={attackType}>{attackType}</option>
+          ))}
+      </select>
 
       <div className={styles.card}>
         <h2>Total Incidents : {totalIncidents}</h2>
@@ -258,9 +285,11 @@ function Dashboard({ currentUser, onLogout, incidents, setIncidents }) {
           <button onClick={closeModal}>Close</button>
         </dialog>
 
-        <h2>
-          Known Incident with status of 'OPEN' : {openIncidents.length}
-        </h2>
+       <h2>
+  {selectedAttackType
+    ? ` ${selectedAttackType} — Total insiden berstatus OPEN: ${filteredIncidentByAttackType.length}`
+    : `Semua jenis insiden / serangan — OPEN: ${openIncidents.length}`}
+</h2>
 
         <Routes>
           <Route
@@ -282,9 +311,18 @@ function Dashboard({ currentUser, onLogout, incidents, setIncidents }) {
                 <p>Category: {incidentDetail.category}</p>
                 <p>Severity: {incidentDetail.severity}</p>
                 <p>Details: {incidentDetail.details}</p>
+                <p>Evidence: 
+                  <button onClick={toggleEvidence}>{showEvidence ? 'Hide Evidence' : 'View More Detail'}</button>
+                  {showEvidence && (
+                    <div>
+                   {incidentDetail?.evidence || 'Belum ada evidence.'}
+                   </div>
+)}
+                </p>
                 <button onClick={() => setIncidentDetailID(null)}>
                   {' '}Close Detail
                 </button>
+
               </div>
             )}
             </>

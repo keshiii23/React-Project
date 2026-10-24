@@ -88,3 +88,8 @@
   border-radius: 5px;
   margin: 0.5rem 0;
 }
+
+.routeError {
+  padding: 20px;
+  color: red;
+}

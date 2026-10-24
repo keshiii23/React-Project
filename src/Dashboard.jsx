@@ -8,15 +8,13 @@ import {
   useNavigate,
   Routes,
   Route,
-  Link,
   useMatch,
-  Navigate,
 } from 'react-router-dom';
 import FilteredTimestamps from './FilteredTimestamps';
 
 function RouteError() {
   return (
-    <div style={{ padding: '20px', color: 'red' }}>
+    <div className={styles.routeError}>
       <h1>Oops! Something went wrong, nothing to find here...</h1>
       <p>Please Try Reloading or Contact Your friends.</p>
     </div>
@@ -169,10 +167,12 @@ function Dashboard({ currentUser, onLogout, incidents, setIncidents }) {
                 ...incident,
                 status: 'ESCALATED',
                 assignedTo: l2Analyst.id,
+                classification: selectedClassification
               }
             : incident
         )
       );
+      navigate('/');
     }
   };
 
@@ -264,9 +264,9 @@ function Dashboard({ currentUser, onLogout, incidents, setIncidents }) {
         value={searchIncident}
         onChange={(event) => setSearchIncident(event.target.value)}
       />
-      <label htmlFor="attack-type">Filter kategori:</label>
+      <label htmlFor="attack-type">Filter Category:</label>
       <select id="attack-type" value={selectedAttackType} onChange={(e) => setSelectedAttackType(e.target.value)}>
-        <option value="">Semua jenis serangan</option>
+        <option value="">All Attack Types</option>
         {Array.from(setAttackTypes).map((attackType) => (
           <option key={attackType} value={attackType}>{attackType}</option>
           ))}
@@ -279,16 +279,16 @@ function Dashboard({ currentUser, onLogout, incidents, setIncidents }) {
         <dialog ref={dialogRef}>
           <h2>Incident has been Assigned....</h2>
           <p>
-            Incident<strong>{assignmentIncidentID}</strong>
-            is assigned to SOC Analyst <strong>{currentAnalyst.name}</strong>
+            Incident <strong>{assignmentIncidentID}</strong> 
+             is assigned to SOC Analyst <strong>{currentAnalyst.name}</strong>
           </p>
           <button onClick={closeModal}>Close</button>
         </dialog>
 
        <h2>
   {selectedAttackType
-    ? ` ${selectedAttackType} — Total insiden berstatus OPEN: ${filteredIncidentByAttackType.length}`
-    : `Semua jenis insiden / serangan — OPEN: ${openIncidents.length}`}
+    ? ` ${selectedAttackType} — Total incident status OPEN: ${filteredIncidentByAttackType.length}`
+    : `All INCIDENT - OPEN: ${openIncidents.length}`}
 </h2>
 
         <Routes>
@@ -315,10 +315,12 @@ function Dashboard({ currentUser, onLogout, incidents, setIncidents }) {
                   <button onClick={toggleEvidence}>{showEvidence ? 'Hide Evidence' : 'View More Detail'}</button>
                   {showEvidence && (
                     <div>
-                   {incidentDetail?.evidence || 'Belum ada evidence.'}
+                   {incidentDetail?.evidence || 'No Evidence.'}
                    </div>
 )}
                 </p>
+                <p>Source IP : {incidentDetail.sourceIP}</p>
+                <p>Timestamp : {new Date(incidentDetail.timestamp).toLocaleString()}</p>
                 <button onClick={() => setIncidentDetailID(null)}>
                   {' '}Close Detail
                 </button>
@@ -332,7 +334,8 @@ function Dashboard({ currentUser, onLogout, incidents, setIncidents }) {
           <Route
             path="/incident/:id"
             element={
-              selectedIncident ? (
+              
+              selectedIncident && selectedIncident.assignedTo === currentAnalyst.id  ? (
                 <InvestigationPanel
                   selectedIncident={selectedIncident}
                   selectedIncidentId={selectedIncidentId}
@@ -340,15 +343,15 @@ function Dashboard({ currentUser, onLogout, incidents, setIncidents }) {
                   draftNotes={draftNotes}
                   investigationNote={investigationNote}
                   addNote={addNote}
-                  selectedClassification={selectedClassification}
                   classificationDropdown={classificationDropdown}
                   resolvedIncident={resolvedIncident}
                   escalateIncident={escalateIncident}
+                  selectedClassification= {selectedClassification}
                   l2Analyst={l2Analyst}
                 />
-              ) : (
-                <RouteError />
-              )
+              ) : 
+                 <RouteError />
+              
             }
           />
 

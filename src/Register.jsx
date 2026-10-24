@@ -1,20 +1,22 @@
-import './Register.css';
 import { useState } from 'react';
 import mockUsers from './mockUsers';
 import mockAnalyst from './mockAnalyst';
 import {useNavigate, Link} from 'react-router-dom';
+import styles from './Register.module.css'
 
 function Register({ onRegister }) {
   const [name, setName] = useState('');
   const [username, setUser] = useState('');
   const [password, setPass] = useState('');
-  const [analystId, setAnalystId] = useState('');
   const [role, setRole] = useState('SOC_L1');
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const navigate = useNavigate();
+  const prefix = role.split('_')[1];
 
   const handleSubmit = (event) => {
+  const count  = mockAnalyst.filter((a) => a.role === role).length;
+  const nextId = count === 0? `analyst-${prefix}` : `analyst-${prefix}(${count})`;
     event.preventDefault();
 
     setError(null);
@@ -24,7 +26,7 @@ function Register({ onRegister }) {
       !name.trim() ||
       !username.trim() ||
       !password.trim() ||
-      !analystId.trim() ||
+
       !role
     ) {
       setError('All fields cannot be blank!');
@@ -35,30 +37,26 @@ function Register({ onRegister }) {
       (user) => user.username === username.trim()
     );
 
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters long!");
+      return;
+    }
+
     if (existingUser) {
       setError('Username has already been registered!');
       return;
     }
 
-    const existingAnalyst = mockAnalyst.find(
-      (analyst) => analyst.id === analystId.trim()
-    );
-
-    if (existingAnalyst) {
-      setError('Analyst Id has already been used!');
-      return;
-    }
-
     const newAnalyst = {
-      id: analystId.trim(),
       name: name.trim(),
       role,
+      id: nextId
     };
 
     const newUser = {
       username: username.trim(),
       password,
-      analystId: analystId.trim(),
+      analystId: nextId
     };
 
     mockAnalyst.push(newAnalyst);
@@ -70,7 +68,6 @@ function Register({ onRegister }) {
 
     if (onRegister) {
       onRegister({
-        analystId: newUser.analystId,
         username: newUser.username,
       });
     }
@@ -78,92 +75,66 @@ function Register({ onRegister }) {
     setName('');
     setUser('');
     setPass('');
-    setAnalystId('');
     setRole('SOC_L1');
   };
 
   return (
-    <div className="register">
+    <div className={styles.register}>
       <h4>Register</h4>
 
       <form onSubmit={handleSubmit}>
         {error && (
-          <p role="alert" className="error-msg">
+          <p role="alert" className={styles.errorMsg}>
             {error}
           </p>
         )}
 
         {success && (
-          <p className="success-msg">
+          <p className={styles.successMsg}>
             {success}
           </p>
         )}
 
-        <div className="text_area">
+        <div className={styles.textArea}>
           <input
             type="text"
             id="name"
             name="name"
             placeholder="Full Name"
             value={name}
-            className="text_input"
+            className={styles.textInput}
             onChange={(event) => setName(event.target.value)}
           />
         </div>
 
-        <div className="text_area">
+        <div className={styles.textArea}>
           <input
             type="text"
             id="username"
             name="username"
             placeholder="Username"
             value={username}
-            className="text_input"
+            className={styles.textInput}
             onChange={(event) => setUser(event.target.value)}
           />
         </div>
 
-        <div className="text_area">
+        <div className={styles.textArea}>
           <input
             type="password"
             id="password"
             name="password"
             placeholder="Password"
             value={password}
-            className="text_input"
+            className={styles.textInput}
             onChange={(event) => setPass(event.target.value)}
           />
-        </div>
-
-        <div className="text_area">
-          <input
-            type="text"
-            id="analystId"
-            name="analystId"
-            placeholder="Analyst Id"
-            value={analystId}
-            className="text_input"
-            onChange={(event) => setAnalystId(event.target.value)}
-          />
-        </div>
-
-        <div className="text_area">
-          <select
-            id="role"
-            name="role"
-            value={role}
-            className="text_input"
-            onChange={(event) => setRole(event.target.value)}
-          >
-            <option value="SOC_L1">SOC L1</option>
-            <option value="SOC_L2">SOC L2</option>
-          </select>
         </div>
 
         <input
           type="submit"
           value="Register"
-          className="btn"
+          className={styles.btn}
         />
       </form>
       <p>

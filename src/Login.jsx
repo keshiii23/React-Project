@@ -4,7 +4,7 @@ import {useState} from 'react';
 import {Link} from 'react-router-dom';
 
 
-function Signin({onLogin}) {
+function Login({onLogin}) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
@@ -37,15 +37,16 @@ function Signin({onLogin}) {
     }
      return(
             <div className={styles.login}>
-                {error && <p role="alert" className={styles.error}></p>}
+                {error && <p role="alert" className={styles.error}>{error}</p>}
                 <h4>Login</h4>
-                <form onSubmit={handleSubmit}> { error && <p role='alert'>{error}</p>}
+                <form onSubmit={handleSubmit}>
                     <div className={styles.text_area}>
                     <input 
                     type="text"
                     id="username"
                     name="username"
                     value={username}
+                    placeholder="Username"
                     className={styles.text_input}
                     onChange={(event) => setUsername(event.target.value)}
                     />
@@ -56,6 +57,7 @@ function Signin({onLogin}) {
                     id="password"
                     name="password"
                     value={password}
+                    placeholder="Password"
                     className={styles.text_input}
                     onChange={(event) => setPassword(event.target.value)}
                     />
@@ -73,4 +75,4 @@ function Signin({onLogin}) {
         )
     }
 
-export default Signin;
+export default Login;

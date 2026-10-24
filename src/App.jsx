@@ -1,15 +1,15 @@
 import {Routes, Route, Navigate, useMatch} from 'react-router-dom';
 import Dashboard from './Dashboard';
-import Signin from './Login';
+import Login from './Login';
 import {useState} from 'react';
 import incidentDetails from './Incident';
 import Register from './Register';
-
+import styles from './Dashboard.module.css'
 function RouteError() {
   return (
     <div>
-      <h1>404 — Halaman tidak ditemukan</h1>
-      <p>URL yang kamu masukkan tidak tersedia.</p>
+      <h1>404 — Page Not Found</h1>
+      <p>URL Unavailable.</p>
     </div>
   );
 }
@@ -20,22 +20,33 @@ const PrivateRoute = ({currentUser, children}) => {
 }
 
 function App() {
-    const [currentUser, setCurrentUser] = useState(null);
+    const [currentUser, setCurrentUser] = useState(() => JSON.parse(sessionStorage.getItem('currentuser') ?? 'null'));
     const [incidents, setIncidents] = useState(incidentDetails);
     const dashboardMatch = useMatch('/');
     const incidentMatch = useMatch('/incident/:id');
     const isValidPage = Boolean(dashboardMatch || incidentMatch);
+    const handleLogin = (user) => {
+      sessionStorage.setItem('currentUser', JSON.stringify(user));
+      setCurrentUser(user);
+    }
+    const handleLogout = () => {
+      sessionStorage.removeItem('currentUser');
+      setCurrentUser(null);
+    }
+
     return(
       <Routes>
         <Route
           path = "/*"
           element={
             !isValidPage ? (
-              <RouteError/>
+              <div className={styles.routeError}>
+                <RouteError/>
+              </div>
             ) : <PrivateRoute currentUser={currentUser}>
               <Dashboard 
                 currentUser={currentUser}
-                onLogout ={() => setCurrentUser(null)}
+                onLogout ={handleLogout}
                 incidents = {incidents}
                 setIncidents = {setIncidents}
              />
@@ -47,7 +58,7 @@ function App() {
           element = {
             currentUser
             ? <Navigate to ="/" replace />
-            : <Signin onLogin={setCurrentUser}/>
+            : <Login onLogin={handleLogin}/>
           }
           >
         </Route>

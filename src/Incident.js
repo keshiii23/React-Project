@@ -1,7 +1,7 @@
 const incidentDetails = [
   {
     id: "EVT-2026-001",
-    timestamp: "2026-09-16T22:15:30Z",
+    timestamp: "2026-09-16 22:15:30",
     eventName: "Brute Force Attempt",
     category: "Authentication",
     status: "OPEN",
@@ -22,7 +22,7 @@ Indicator: Percobaan login berulang dari IP yang sama ke akun root.`
   },
   {
     id: "EVT-2026-002",
-    timestamp: "2026-09-16T22:18:12Z",
+    timestamp: "2026-09-16 22:18:12",
     eventName: "SQL Injection (SQLi) Detected",
     category: "Web Application",
     status: "OPEN",
@@ -44,7 +44,7 @@ Catatan: Percobaan terdeteksi; keberhasilan eksploitasi belum terbukti.`
   },
   {
     id: "EVT-2026-003",
-    timestamp: "2026-09-16T22:20:05Z",
+    timestamp: "2026-09-16 22:20:05",
     eventName: "Impossible Travel Detection",
     category: "Identity & Access",
     status: "OPEN",
@@ -64,7 +64,7 @@ Catatan: Periksa VPN, proxy, dan akurasi geolokasi sebelum menyimpulkan kompromi
   },
   {
     id: "EVT-2026-004",
-    timestamp: "2026-09-16T22:22:45Z",
+    timestamp: "2026-09-16 22:22:45",
     eventName: "Internal Network Reconnaissance",
     category: "Network Scans",
     status: "OPEN",
@@ -86,7 +86,7 @@ Catatan: Bisa merupakan pemindaian resmi; pola ini saja tidak memastikan penggun
   },
   {
     id: "EVT-2026-005",
-    timestamp: "2026-09-16T22:25:00Z",
+    timestamp: "2026-09-16 22:25:00",
     eventName: "Potential Data Exfiltration",
     category: "Data Protection",
     status: "OPEN",
@@ -109,7 +109,7 @@ Catatan: Periksa tujuan, jenis data, dan izin transfer; mungkin aktivitas backup
   },
   {
     id: "EVT-2026-006",
-    timestamp: "2026-09-16T22:29:18Z",
+    timestamp: "2026-09-16 22:29:18",
     eventName: "Suspicious PowerShell Execution",
     category: "Endpoint Malicious Activity",
     status: "OPEN",
@@ -131,7 +131,7 @@ Catatan: Isi perintah dan aktivitas lanjutannya perlu diperiksa.`
   },
   {
     id: "EVT-2026-007",
-    timestamp: "2026-09-16T22:31:02Z",
+    timestamp: "2026-09-16 22:31:02",
     eventName: "Phishing Link Clicked",
     category: "Email Security",
     status: "OPEN",

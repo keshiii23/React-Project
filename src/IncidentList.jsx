@@ -1,11 +1,9 @@
-import {useState} from 'react';
+import mockAnalyst from './mockAnalyst';
 function IncidentList( {
   incidents,
   currentAnalyst,
-  l2Analyst,
   takeIncident,
   investigateIncident,
-  escalateIncident,
   incidentDetails,
 }) {
   if (incidents.length === 0) {
@@ -16,7 +14,7 @@ function IncidentList( {
           {incidents.map((item) => (
             <li key={item.id}>
               Showing a lists of {item.id} and {item.status},
-              Assigned To : {item.assignedTo}{' '}
+              Assigned To : {mockAnalyst.find((prev) => prev.id === item.assignedTo) ?.name ?? 'Unassigned'}
 
               <button
                 onClick={() => takeIncident(item.id)}
@@ -43,7 +41,7 @@ function IncidentList( {
                 Investigate
               </button>{' '}
              <button onClick={() => incidentDetails(item.id)}
-              disabled={item.status == 'RESOLVED'}>
+              disabled={item.status === 'RESOLVED'}>
               Detail
                 </button>
             </li>

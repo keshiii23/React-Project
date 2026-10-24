@@ -1,4 +1,3 @@
-import React, {useState} from 'react';
 import styles from './InvestigationPanel.module.css';
 import {Link} from 'react-router-dom';
 
@@ -16,14 +15,12 @@ function InvestigationPanel({
     escalateIncident,
     l2Analyst
 }) {
-    const [isOpen, setisOpen] = useState(false);
     const handleEscalate = () => {
       if (!selectedIncident || !l2Analyst || currentAnalyst.role !== 'SOC_L1' || selectedIncident.status !== 'IN_PROGRESS' ||
     selectedIncident.assignedTo !== currentAnalyst.id) {
       return;
     }
       escalateIncident(selectedIncident.id);
-      setisOpen(true);
     }
     return(
          <div className={styles.panel}>
@@ -73,14 +70,12 @@ function InvestigationPanel({
         Resolve
       </button>
       <button onClick={handleEscalate} disabled={!selectedIncident || !l2Analyst || currentAnalyst.role !== 'SOC_L1' || selectedIncident.status !== 'IN_PROGRESS' ||
-    selectedIncident.assignedTo !== currentAnalyst.id || selectedClassification !== 'TRUE_POSITIVE' &&
-            selectedClassification !== 'FALSE_POSITIVE'
+    selectedIncident.assignedTo !== currentAnalyst.id || selectedClassification !== 'TRUE_POSITIVE' ||
+            selectedClassification === 'FALSE_POSITIVE'
          || !selectedIncident?.notes?.length}
         >
           Escalate To L2.
                 </button>
-      {isOpen && (<div className={styles.popup} role="status"><h2>Sent to L2!</h2> <p>Success</p>
-    <button className={styles.close} onClick={() => setisOpen(false)}>Close</button> </div>) }
       <Link to="/" className={styles.backLink}>Back to Incident List.</Link>
       </div>
   

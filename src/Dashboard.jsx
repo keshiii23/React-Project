@@ -1,4 +1,3 @@
-import './App.css';
 import styles from './Dashboard.module.css'
 import { useState, useRef, useEffect } from 'react';
 import mockAnalyst from './mockAnalyst';
@@ -200,7 +199,7 @@ function Dashboard({ currentUser, onLogout, incidents, setIncidents }) {
         incident.id === id
           ? {
               ...incident,
-              investigatedAt: now,
+              investigatedAt: incident.investigatedAt ?? now,
             }
           : incident
       )

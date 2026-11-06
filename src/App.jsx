@@ -20,7 +20,7 @@ const PrivateRoute = ({currentUser, children}) => {
 }
 
 function App() {
-    const [currentUser, setCurrentUser] = useState(() => JSON.parse(sessionStorage.getItem('currentuser') ?? 'null'));
+    const [currentUser, setCurrentUser] = useState(() => JSON.parse(sessionStorage.getItem('currentUser') ?? 'null'));
     const [incidents, setIncidents] = useState(incidentDetails);
     const dashboardMatch = useMatch('/');
     const incidentMatch = useMatch('/incident/:id');

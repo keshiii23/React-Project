@@ -41,9 +41,6 @@ function Dashboard({ currentUser, onLogout, incidents, setIncidents }) {
     (analyst) => analyst?.id === currentUser?.analystId
   ) || { name: 'Guest', role: 'Unknown' };
 
-  const openIncidents = incidents
-    ? incidents.filter((incident) => incident.status === 'OPEN' && (selectedAttackType === '' || incident.attackType ===  selectedAttackType))
-    : [];
 
   const selectedIncident = incidents.find(
     (incident) => incident.id === selectedIncidentId
@@ -234,9 +231,13 @@ function Dashboard({ currentUser, onLogout, incidents, setIncidents }) {
   }
   );
 
-  const filteredIncidentByAttackType = incidents.filter((incident) => 
-    (selectedAttackType === '' || incident.attackType === selectedAttackType) 
-  )
+  const searchedAttackType = query === '' ? [] : [...new Set(filteredIncident.map((incident) => incident.attackType))];
+
+  const activeAttackType = selectedAttackType || (searchedAttackType.length === 1 ? searchedAttackType[0] : '');
+
+    const openIncidents = incidents
+    ? incidents.filter((incident) => incident.status === 'OPEN' && (activeAttackType === '' || incident.attackType ===  activeAttackType))
+    : [];
 
   const setAttackTypes = [
     ...new Set(incidents.map((incident) => incident.attackType).filter(Boolean))
@@ -286,9 +287,9 @@ function Dashboard({ currentUser, onLogout, incidents, setIncidents }) {
         </dialog>
 
        <h2>
-  {selectedAttackType
-    ? ` ${selectedAttackType} — Total incident status OPEN: ${filteredIncidentByAttackType.length}`
-    : `All INCIDENT - OPEN: ${openIncidents.length}`}
+  {activeAttackType
+    ? ` ${activeAttackType} — Total incident status OPEN: ${openIncidents.length}`
+    : `ALL INCIDENT - OPEN: ${openIncidents.length}`}
 </h2>
 
         <Routes>

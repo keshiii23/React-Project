@@ -1,0 +1,7 @@
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+}
